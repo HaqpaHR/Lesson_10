@@ -3,7 +3,7 @@
 let someSht = function(arr, callback) {
   for (let i = 0; i < arr.length; i++) {
     const element = arr[i];
-    if (callback(element)){
+    if (callback(element, arr, i)){
       return true;
     }
   }
@@ -24,7 +24,7 @@ console.log(someSht(nums, (elment) => elment >= 50));
 let everySht = function(arr, callback) {
   for (let i = 0; i < arr.length; i++) {
     element = arr[i];
-    if (!callback(element)) {
+    if (!callback(element, arr, i)) {
       return false;
     }
   }
@@ -43,9 +43,7 @@ console.log(everySht(numForEvery2, (num) => num == 2));
 let forEachNew = (arr, callback) => {
   for(let i = 0; i < arr.length; i++) {
     let element = arr[i];
-    if(callback(element)) {
-      return arr, callback;
-    }
+    (callback(element, arr, i)) ;
   }
 };
 
@@ -68,8 +66,8 @@ const runner = {
   start: function (speed) {
       var _this = this;
       this.$$runnerId = setTimeout(function callback() {
-          _this.$$tasks.forEach(function (task) {
-              console.log(task);
+          _this.$$tasks.forEach(function (cb) {
+             cb();              
           },
           this);
           _this.$$runnerId = setTimeout(callback, speed);
@@ -80,7 +78,9 @@ const runner = {
   }
 };
 
-runner.$$tasks = ['Hello', 'World'];
+
+runner.add(() => console.log('Hello'));
+runner.add(() => console.log('World'));
 runner.start(2000);
 
 
